@@ -1,6 +1,16 @@
-#ifndef MYFIND
-#define MYFIND
+#ifndef MYFIND_H
+#define MYFIND_H
 
-void myfind(char *s);
+typedef struct option
+{
+    char *name;
+    int print;
+    char *newer;
+    struct option *next;
+}opt;
 
-#endif /* MYFIND! */
+int main(int argc, char *argv[]);
+void myfind(char **path, opt *args);
+opt *Parsing_args(int len, char **spath, char **parms);
+
+#endif /* ! MYFIND_H */

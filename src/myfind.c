@@ -1,38 +1,35 @@
 #include "include/myfind.h"
+#include "include/is_file.h"
+#include "include/is_dir.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <dirent.h>
+#include <unistd.h>
+#include <string.h>
 
-void myfind(char *s){
-    char *Path = malloc(sizeof(char));
-    struct dirent *dir;
+void myfind(char **path, opt *args)
+{
+    struct stat hdr;
+    int i = 0;
 
-    DIR *d = opendir(s);
-    if (d != NULL)
+    if (path[i] == NULL) 
+        path[i] = ".";
+
+    while (path[i] != NULL)
     {
-           printf("%s\n", s);
-        while ((dir = readdir(d))!=NULL)
+        int status = stat(path[i], &hdr);
+        if (status == -1)
+            fprintf(stderr, "myfind: %s: %s\n", path[i], strerror(errno));
+        else 
         {
-            if (dir->d_type == DT_DIR)
-            {
-                if (strcmp(dir->d_name, ".")!=0 && strcmp(dir->d_name, "..")!=0)
-                { 
-                    strcpy(Path, s);
-                    strcat(Path,"/");
-                    strcat(Path, dir->d_name);
-                    myfind(Path);
-                }
-            }
-            else
-                printf("%s/%s\n", s,dir->d_name);
-    }
-    closedir(d);
-    }
-    else
-        perror("myfind");
-}
+            is_file(path[i], args, &hdr);
 
+            if (S_ISDIR(hdr.st_mode))
+                is_dir(path[i], args, hdr);
+        }
+        i++;
+    }
+}

@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -std=c99 -pedantic -Werror -Wall -Wextra
 
 BIN = myfind
-OBJS = src/$(BIN).o src/main.o
+OBJS = src/$(BIN).o src/main.o src/is_dir.o src/is_file.o
 
 all: $(BIN)
 
