@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 opt *Parsing_args(int len, char **spath, char **parms)
 {
     int y = 0;
-    int opts = 1;
+    int opts = 0;
     int memUsed = 0;
 
     opt *op = malloc(sizeof(*op));
@@ -36,18 +36,6 @@ opt *Parsing_args(int len, char **spath, char **parms)
 
     for (int i = 1; i < len; i++)
     {
-        // if (opts == 1)
-        // {
-        //     op->next = calloc(1, sizeof(*op));
-        //     if (op->next == NULL)
-        //     {
-        //         fprintf(stderr, "myfind: %s\n", strerror(errno));
-        //         exit(EXIT_FAILURE);
-        //     }
-        //     op = op->next;
-        //     op->next = NULL;
-        // }
-
         if (strcmp(parms[i], "-name") == 0)
         {
             if (parms[++i])
@@ -75,7 +63,6 @@ opt *Parsing_args(int len, char **spath, char **parms)
             if (parms[++i])
             {
                 op->newer = parms[i];
-                //printf("%s\n", op->newer);
                 opts = 1;
                 memUsed = 1;
                 continue;
@@ -85,6 +72,18 @@ opt *Parsing_args(int len, char **spath, char **parms)
                 fprintf(stderr, "myfind: missing argument to %s\n", parms[i - 1]);
                 exit(EXIT_FAILURE);
             }
+        }
+
+        if (opts == 1)
+        {
+            op->next = calloc(1, sizeof(*op));
+            if (op->next == NULL)
+            {
+                fprintf(stderr, "myfind: %s\n", strerror(errno));
+                exit(EXIT_FAILURE);
+            }
+            op = op->next;
+            op->next = NULL;
         }
 
         if (memUsed != 0) 

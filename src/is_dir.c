@@ -31,7 +31,7 @@ void is_dir(char *dir_path, opt *parms, struct stat hdr)
             else
                 sprintf(concat_Path, "%s/%s", dir_path, sdir->d_name);
 
-            int status = lstat(concat_Path, &hdr);
+            int status = stat(concat_Path, &hdr);
             if (status == -1)
             {
                 fprintf(stderr, "myfind: %s: %s\n", concat_Path, strerror(errno));
