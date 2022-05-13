@@ -45,7 +45,7 @@ void is_file(char *path, opt *parms, struct stat *hdr)
             }
             else
             {
-                if (hdr->st_mtimespec.tv_sec > hdr2.st_mtimespec.tv_sec)
+                if (hdr->st_mtime > hdr2.st_mtime)
                 {
                     printf("%s\n", path);
                     return;

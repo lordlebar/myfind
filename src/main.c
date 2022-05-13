@@ -1,4 +1,3 @@
-
 #include "include/myfind.h"
 
 #include <stdio.h>
