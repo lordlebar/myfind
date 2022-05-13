@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
+<<<<<<< HEAD
 opt *Parsing_args(int len, char **spath, char **parms)
 {
     int y = 0;
@@ -58,6 +59,21 @@ opt *Parsing_args(int len, char **spath, char **parms)
                 continue;
             }
             else
+=======
+int main(int argc, char *argv[])
+{
+    struct stat *hdr = (struct stat *)malloc(sizeof(struct stat));
+    int status = 0;
+    
+    char *path = "";
+    if (argc >= 2){
+        for (int i = 1; i < argc; i++)
+        {
+            status = stat(argv[i], hdr);
+            path = argv[i];
+
+            if (status == -1)
+>>>>>>> d39c668dcc009adbe056810cf27e22886412f2bc
             {
                 fprintf(stderr, "myfind: missing argument to %s\n", parms[i - 1]);
                 exit(EXIT_FAILURE);
@@ -74,11 +90,15 @@ opt *Parsing_args(int len, char **spath, char **parms)
         {
             if (parms[++i])
             {
+<<<<<<< HEAD
                 op->newer = parms[i];
                 //printf("%s\n", op->newer);
                 opts = 1;
                 memUsed = 1;
                 continue;
+=======
+                myfind(path);
+>>>>>>> d39c668dcc009adbe056810cf27e22886412f2bc
             }
             else
             {
@@ -86,6 +106,7 @@ opt *Parsing_args(int len, char **spath, char **parms)
                 exit(EXIT_FAILURE);
             }
         }
+<<<<<<< HEAD
 
         if (memUsed != 0) 
         {
@@ -114,4 +135,19 @@ opt *Parsing_args(int len, char **spath, char **parms)
     spath[y] = NULL;
 
     return first;
+=======
+    }
+    else if (argc == 1)
+    {
+        status = stat(".", hdr);
+        path = ".";
+
+        myfind(path);
+    }
+    else
+        printf("usage: ./myfind [path]");
+
+    free(hdr);
+    return 0;
+>>>>>>> d39c668dcc009adbe056810cf27e22886412f2bc
 }
