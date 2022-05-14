@@ -28,7 +28,7 @@ void myfind(char **path, opt *args)
             is_file(path[i], args, &hdr);
 
             if (S_ISDIR(hdr.st_mode))
-                is_dir(path[i], args, hdr);
+                is_dir(path[i], args, &hdr);
         }
         i++;
     }
@@ -41,7 +41,7 @@ opt *Parsing_args(int len, char **spath, char **parms)
     int memUsed = 0;
 
     opt *op = malloc(sizeof(*op));
-    opt *first = op;
+    opt *res = op;
 
     for (int i = 1; i < len; i++)
     {
@@ -77,7 +77,7 @@ opt *Parsing_args(int len, char **spath, char **parms)
                     exit(EXIT_FAILURE);
                 }
                 char type_of = *parms[i];
-                if (type_of == 'b' || type_of == 'c' || type_of == 'd' || type_of == 'f' || type_of == 'l' || type_of == 'p' || type_of == 's')
+                if (type_of == 'b' || 'c' || 'd' || 'f' || 'l' || 'p' || 's')
                 {
                     op->types = type_of;
                     opts = 1; 
@@ -115,14 +115,15 @@ opt *Parsing_args(int len, char **spath, char **parms)
 
         if (opts == 1)
         {
-            op->next = calloc(1, sizeof(*op));
+            op->next = malloc(sizeof(*op));
             if (op->next == NULL)
             {
                 fprintf(stderr, "myfind: %s\n", strerror(errno));
                 exit(EXIT_FAILURE);
             }
             op = op->next;
-            op->next = NULL;
+            free(op->next);
+            //op->next = NULL;
         }
 
         if (memUsed != 0) 
@@ -132,7 +133,7 @@ opt *Parsing_args(int len, char **spath, char **parms)
                 fprintf(stderr, "myfind: %s: Unknown option\n", parms[i]);
                 exit(EXIT_FAILURE);
             }
-            fprintf(stderr, "%s\n", "myfind: Usage: ./myfind [starting-point...] [expressions] ...");
+            fprintf(stderr,"myfind: Usage: ./myfind [starting-point...] [expressions] ...\n");
             exit(EXIT_FAILURE);
         } 
         else
@@ -150,6 +151,5 @@ opt *Parsing_args(int len, char **spath, char **parms)
         }
     }
     spath[y] = NULL;
-
-    return first;
+    return res;
 }

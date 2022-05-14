@@ -10,7 +10,6 @@ typedef struct option
     struct option *next;
 }opt;
 
-int main(int argc, char *argv[]);
 void myfind(char **path, opt *args);
 opt *Parsing_args(int len, char **spath, char **parms);
 

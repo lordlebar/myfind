@@ -57,7 +57,7 @@ int newer(char *path, opt *parms, struct stat *hdr)
     if (status == -1)
     {
         fprintf(stderr, "myfind: %s: %s\n", path, strerror(errno));
-        return 0;
+        exit(EXIT_FAILURE);
     }
     else
     {
@@ -95,8 +95,8 @@ int types(opt *parms, struct stat *hdr)
         letter = 'l';
     else if (S_ISFIFO(hdr->st_mode))
         letter = 'p';
-    else if (S_ISSOCK(hdr->st_mode))
-        letter = 's';
+    //else if (S_ISSOCK(hdr->st_mode))
+        //letter = 's';
     else
         letter = '?';
 

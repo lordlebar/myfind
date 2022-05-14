@@ -8,7 +8,7 @@
 #include <string.h>
 #include <errno.h>
 
-void is_dir(char *dir_path, opt *parms, struct stat hdr)
+void is_dir(char *dir_path, opt *parms, struct stat *hdr)
 {
     struct dirent *sdir;
 
@@ -24,27 +24,27 @@ void is_dir(char *dir_path, opt *parms, struct stat hdr)
         if (!((strcmp(sdir->d_name, ".")) == 0 || (strcmp(sdir->d_name, "..")) == 0))
         {
             size_t len_path = strlen(dir_path) + strlen(sdir->d_name);
-            char concat_Path[len_path];
+            char path[len_path];
 
             if (dir_path[strlen(dir_path) - 1] == '/')
-                sprintf(concat_Path, "%s%s", dir_path, sdir->d_name);
+                sprintf(path, "%s%s", dir_path, sdir->d_name);
             else
-                sprintf(concat_Path, "%s/%s", dir_path, sdir->d_name);
+                sprintf(path, "%s/%s", dir_path, sdir->d_name);
 
-            int status = stat(concat_Path, &hdr);
+            int status = stat(path, hdr);
             if (status == -1)
             {
-                fprintf(stderr, "myfind: %s: %s\n", concat_Path, strerror(errno));
+                fprintf(stderr, "myfind: %s: %s\n", path, strerror(errno));
                 exit(EXIT_FAILURE);
             }
 
-            if (S_ISDIR(hdr.st_mode))
+            if (S_ISDIR(hdr->st_mode))
             {
-                is_file(concat_Path, parms, &hdr);
-                is_dir(concat_Path, parms, hdr);
+                is_file(path, parms, hdr);
+                is_dir(path, parms, hdr);
             }
             else
-                is_file(concat_Path, parms, &hdr);
+                is_file(path, parms, hdr);
         }
         else
             continue;

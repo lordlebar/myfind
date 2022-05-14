@@ -3,7 +3,7 @@
 function check()
 {
   opt="$*"
-  if [[ -n "$str" ]]; then 
+  if [[ -n "$str" ]]; then
     printf "please give an argument to the function.";
     exit;
   else
@@ -11,7 +11,7 @@ function check()
     if [ "$diff" != "" ]; then
       printf "\e[31m[ FAIL ]\e[39m ";
       printf "%b\n" "$opt"
-      printf "%s\n" $diff; 
+      printf "%s\n" $diff;
     else
       printf "\e[32m[ PASS ]\e[39m\t "
       printf "%b\n" "$opt"
@@ -39,4 +39,4 @@ check src/* -newer src/main.c
 check src/myfind.o -newer src/myfind.c
 check src/myfind.c -newer src/myfind.o
 check src/* -newer src/main.c
-check src/main.o -newer src/main.c
+check src/main.o -newer src/main.c 
