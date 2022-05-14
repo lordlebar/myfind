@@ -8,5 +8,8 @@
 #include <unistd.h>
 
 void is_file(char *fp_path, opt *p, struct stat *hdr);
+int newer(char *fp_path, opt *p, struct stat *hdr);
+int name(char *path, opt *parms);
+int types(opt *parms, struct stat *hdr);
 
 #endif /* ! IS_FILE_H */

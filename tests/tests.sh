@@ -24,10 +24,14 @@ check makefile src
 check .
 check error.l
 check makefile -print
+check src/include -print
 check src -name 'myfind.*'
 check src -name 'myfind.?'
-check src/include -print
 check src/*.o
+check tests -type d
+check tests -type dir
+check tests -type y
+check src -type d
 check src/*.o -o src/include/myfind.h
 check find
 check src/*.c -a src/*.o

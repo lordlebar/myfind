@@ -5,6 +5,7 @@ typedef struct option
 {
     char *name;
     int print;
+    char types;
     char *newer;
     struct option *next;
 }opt;
