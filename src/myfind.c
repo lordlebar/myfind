@@ -44,6 +44,9 @@ opt *Parsing_args(int len, char *spath[], char *parms[])
     int i = 1;
     while (i < len) //for (int i = 1; i < len; i++)
     {
+        if (opts == 1)
+            op = op->next;
+
         if (strcmp(parms[i], "-name") == 0)
         {
             if (parms[i++])
@@ -97,7 +100,6 @@ opt *Parsing_args(int len, char *spath[], char *parms[])
                 fprintf(stderr, "myfind: %s: requires additional arguments\n", parms[i - 1]);
                 exit(EXIT_FAILURE);
             }
-
         }
         else if (strcmp(parms[i], "-newer") == 0)
         {
@@ -116,6 +118,8 @@ opt *Parsing_args(int len, char *spath[], char *parms[])
             }
         }
 
+<<<<<<< HEAD
+=======
         if (opts == 1)
         {
             op->next = malloc(sizeof(*op));
@@ -128,6 +132,7 @@ opt *Parsing_args(int len, char *spath[], char *parms[])
             op->next = NULL;
         }
 
+>>>>>>> 08a9ced7046040176db96126f4d04a8e31cd9e10
         if (memUsed == 1) 
         {
             if (strcmp(parms[i - 1], "-print") == 0)
