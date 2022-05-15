@@ -3,8 +3,8 @@
 
 #include "myfind.h"
 
-#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 void is_file(char *fp_path, opt *p, struct stat *hdr);

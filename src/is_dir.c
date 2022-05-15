@@ -1,12 +1,13 @@
 #include "include/is_dir.h"
-#include "include/is_file.h"
-#include "include/myfind.h"
 
 #include <dirent.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <errno.h>
+
+#include "include/is_file.h"
+#include "include/myfind.h"
 
 void is_dir(char *dir_path, opt *parms, struct stat *hdr)
 {

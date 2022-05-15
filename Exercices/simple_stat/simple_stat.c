@@ -1,11 +1,8 @@
 #include <stdio.h>
-#include <stddef.h>
 #include <time.h>
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
 
 int main(int argc, char *argv[])
 {
@@ -34,6 +31,6 @@ int main(int argc, char *argv[])
 
         return 0;
     }
-    
+
     return 1;
 }

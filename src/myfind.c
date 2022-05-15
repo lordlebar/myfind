@@ -1,14 +1,13 @@
 #include "include/myfind.h"
-#include "include/is_file.h"
-#include "include/is_dir.h"
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <string.h>
+#include <sys/stat.h>
+
+#include "include/is_file.h"
+#include "include/is_dir.h"
 
 void myfind(char **path, opt *args)
 {
@@ -33,7 +32,7 @@ void myfind(char **path, opt *args)
         path[i] = ".";
 }
 
-opt *Parsing_args(int len, char **spath, char **parms)
+opt *Parsing_args(int len, char *spath[], char *parms[])
 {
     int y = 0;
     int opts = 0;

@@ -1,18 +1,15 @@
-#include "include/is_dir.h"
 #include "include/is_file.h"
-#include "include/myfind.h"
 
 #include <dirent.h>
+#include <errno.h>
+#include <fnmatch.h>
+#include <libgen.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <errno.h>
-#include <libgen.h>
-#include <fnmatch.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <time.h>
+
+#include "include/myfind.h"
 
 void is_file(char *path, opt *parms, struct stat *hdr)
 {
@@ -95,8 +92,8 @@ int types(opt *parms, struct stat *hdr)
         letter = 'l';
     else if (S_ISFIFO(hdr->st_mode))
         letter = 'p';
-    //else if (S_ISSOCK(hdr->st_mode))
-        //letter = 's';
+    else if (S_ISSOCK(hdr->st_mode))
+        letter = 's';
     else
         letter = '?';
 
