@@ -13,13 +13,13 @@ int main(int argc, char *argv[])
 
     myfind(list_path, args);
 
-    //opt *first = args;
-    //while (first)
-    //{
-        //opt *temp = first->next;
-        //free(first);
-        //first = temp;
-    //}
+    opt *first = args;
+    while (first)
+    {
+        opt *temp = first->next;
+        free(first);
+        first = temp;
+    }
     return 0;
 }
 

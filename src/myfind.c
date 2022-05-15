@@ -45,6 +45,9 @@ opt *Parsing_args(int len, char **spath, char **parms)
 
     for (int i = 1; i < len; i++)
     {
+        if (opts == 1)
+            op = op->next;
+
         if (strcmp(parms[i], "-name") == 0)
         {
             if (parms[++i])
@@ -77,7 +80,7 @@ opt *Parsing_args(int len, char **spath, char **parms)
                     exit(EXIT_FAILURE);
                 }
                 char type_of = *parms[i];
-                if (type_of == 'b' || 'c' || 'd' || 'f' || 'l' || 'p' || 's')
+                if (type_of == 'b' || type_of == 'c' || type_of == 'd' || type_of == 'f' || type_of == 'l' || type_of == 'p' || type_of == 's')
                 {
                     op->types = type_of;
                     opts = 1; 
@@ -95,7 +98,6 @@ opt *Parsing_args(int len, char **spath, char **parms)
                 fprintf(stderr, "myfind: missing argument to %s\n", parms[i - 1]);
                 exit(EXIT_FAILURE);
             }
-
         }
         else if (strcmp(parms[i], "-newer") == 0)
         {
@@ -113,20 +115,7 @@ opt *Parsing_args(int len, char **spath, char **parms)
             }
         }
 
-        if (opts == 1)
-        {
-            op->next = malloc(sizeof(*op));
-            if (op->next == NULL)
-            {
-                fprintf(stderr, "myfind: %s\n", strerror(errno));
-                exit(EXIT_FAILURE);
-            }
-            op = op->next;
-            free(op->next);
-            //op->next = NULL;
-        }
-
-        if (memUsed != 0) 
+        if (memUsed == 1) 
         {
             if (parms[i][0] == '-')
             {
