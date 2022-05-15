@@ -22,7 +22,8 @@ void is_dir(char *dir_path, opt *parms, struct stat *hdr)
 
     while ((sdir = readdir(dir)) != NULL)
     {
-        if (!((strcmp(sdir->d_name, ".")) == 0 || (strcmp(sdir->d_name, "..")) == 0))
+        if (!((strcmp(sdir->d_name, ".")) == 0
+            || (strcmp(sdir->d_name, "..")) == 0))
         {
             size_t len_path = strlen(dir_path) + strlen(sdir->d_name);
             char path[len_path];
