@@ -118,8 +118,6 @@ opt *Parsing_args(int len, char *spath[], char *parms[])
             }
         }
 
-<<<<<<< HEAD
-=======
         if (opts == 1)
         {
             op->next = malloc(sizeof(*op));
@@ -132,8 +130,7 @@ opt *Parsing_args(int len, char *spath[], char *parms[])
             op->next = NULL;
         }
 
->>>>>>> 08a9ced7046040176db96126f4d04a8e31cd9e10
-        if (memUsed == 1) 
+        if (memUsed == 1)
         {
             if (strcmp(parms[i - 1], "-print") == 0)
                 fprintf(stderr,"myfind: %s: doesn't take parameters\n", parms[i]);

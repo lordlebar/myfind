@@ -97,7 +97,6 @@ int types(opt *parms, struct stat *hdr)
     else
         letter = '?';
 
-
     if (letter != parms->types)
         return 0;
     return 1;

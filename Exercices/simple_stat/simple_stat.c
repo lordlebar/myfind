@@ -1,8 +1,5 @@
 #include <stdio.h>
-#include <time.h>
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 
 int main(int argc, char *argv[])
 {
@@ -10,13 +7,16 @@ int main(int argc, char *argv[])
 
     if (argc > 1)
     {
-        for (size_t i = 1; i < argc; i++)
+        for (int i = 1; i < argc; i++)
         {
-            stat(argv[i], &hdr);
+            int status = stat(argv[i], &hdr);
+
+            if (status == -1)
+                return 1;
 
             printf("st_dev=%d\n", hdr.st_dev);
             printf("st_ino=%llu\n", hdr.st_ino);
-            printf("st_mode=%d\n", hdr.st_mode);
+            printf("st_mode=0%o\n", hdr.st_mode);
             printf("st_nlink=%d\n", hdr.st_nlink);
             printf("st_uid=%d\n", hdr.st_uid);
             printf("st_gid=%d\n", hdr.st_gid);
@@ -28,9 +28,7 @@ int main(int argc, char *argv[])
             printf("st_blksize=%d\n", hdr.st_blksize);
             printf("st_blocks=%lld\n", hdr.st_blocks);
         }
-
         return 0;
     }
-
     return 1;
 }

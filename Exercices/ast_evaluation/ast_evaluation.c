@@ -7,20 +7,18 @@ int eval_expr(struct my_expr *expr)
 {
     if (expr->type == EXPR_NUMBER)
         return expr->data.value;
+
     else if (expr->type == EXPR_ADDITION)
     {
-        int add = (eval_expr(expr->data.children.left)+ eval_expr(expr->data.children.right));
-        return add;
+        return ((eval_expr(expr->data.children.left)) + (eval_expr(expr->data.children.right)));
     }
     else if (expr->type == EXPR_SUBTRACTION)
     {
-        int sub = (eval_expr(expr->data.children.left) - eval_expr(expr->data.children.right));
-        return sub;
+        return ((eval_expr(expr->data.children.left)) - (eval_expr(expr->data.children.right)));
     }
     else if (expr->type == EXPR_MULTIPLICATION)
     {
-        int mult = (eval_expr(expr->data.children.left) * eval_expr(expr->data.children.right));
-        return mult;
+        return ((eval_expr(expr->data.children.left)) * (eval_expr(expr->data.children.right)));
     }
     else if (expr->type == EXPR_DIVISION)
     {
@@ -29,13 +27,11 @@ int eval_expr(struct my_expr *expr)
             fprintf(stderr, "Divided by 0");
             exit(1);
         }
-        int div = (eval_expr(expr->data.children.left) / eval_expr(expr->data.children.right));
-        return div;
+        return ((eval_expr(expr->data.children.left)) / (eval_expr(expr->data.children.right)));
     }
     else if (expr->type == EXPR_NEGATION)
     {
-        int neg = -(eval_expr(expr->data.children.left));
-        return neg;
+        return -(eval_expr(expr->data.children.left));
     }
     return 1;
 }
