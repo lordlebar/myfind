@@ -56,7 +56,7 @@ int newer(char *path, opt *parms, struct stat *hdr)
             
     if (status == -1)
     {
-        fprintf(stderr, "myfind: %s: %s\n", path, strerror(errno));
+        fprintf(stderr, "myfind: %s: %s\n", parms->newer, strerror(errno));
         exit(EXIT_FAILURE);
     }
     else
