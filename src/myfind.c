@@ -15,9 +15,6 @@ void myfind(char **path, opt *args)
     struct stat hdr;
     int i = 0;
 
-    if (path[i] == NULL) 
-        path[i] = ".";
-
     while (path[i] != NULL)
     {
         int status = stat(path[i], &hdr);
@@ -32,6 +29,8 @@ void myfind(char **path, opt *args)
         }
         i++;
     }
+    if (path[i] == NULL) 
+        path[i] = ".";
 }
 
 opt *Parsing_args(int len, char **spath, char **parms)
@@ -43,20 +42,22 @@ opt *Parsing_args(int len, char **spath, char **parms)
     opt *op = malloc(sizeof(*op));
     opt *res = op;
 
-    for (int i = 1; i < len; i++)
+    int i = 1;
+    while (i < len) //for (int i = 1; i < len; i++)
     {
         if (strcmp(parms[i], "-name") == 0)
         {
-            if (parms[++i])
+            if (parms[i++])
             {
                 op->name = parms[i];
                 opts = 1; 
                 memUsed = 1;
+                i++;
                 continue;
             }
             else
             {
-                fprintf(stderr, "myfind: missing argument to %s\n", parms[i - 1]);
+                fprintf(stderr, "myfind: %s: requires additional arguments\n", parms[i - 1]);
                 exit(EXIT_FAILURE);
             }
         } 
@@ -65,50 +66,53 @@ opt *Parsing_args(int len, char **spath, char **parms)
             op->print = 1;
             opts = 1; 
             memUsed = 1;
+            i++;
             continue;
         }
         else if (strcmp(parms[i], "-type") == 0)
         {
-            if (parms[++i])
+            if (parms[i++])
             {
                 if (strlen(parms[i]) > 1)
                 {
-                    fprintf(stderr, "myfind: Option -type take one letter\n");
+                    fprintf(stderr, "myfind: %s: this option take one letter\n", parms[i - 1]);
                     exit(EXIT_FAILURE);
                 }
                 char type_of = *parms[i];
-                if (type_of == 'b' || 'c' || 'd' || 'f' || 'l' || 'p' || 's')
+                if (type_of == 'b' || type_of == 'c' || type_of == 'd' || type_of == 'f' || type_of == 'l' || type_of == 'p' || type_of == 's')
                 {
                     op->types = type_of;
                     opts = 1; 
                     memUsed = 1;
+                    i++;
                     continue;
                 }
                 else
                 {
-                    fprintf(stderr, "myfind: %c: type not correct\n", type_of);
+                    fprintf(stderr, "myfind: %s: %c: unknown letter\n", parms[i - 1], type_of);
                     exit(EXIT_FAILURE);
                 }
             }
             else
             {
-                fprintf(stderr, "myfind: missing argument to %s\n", parms[i - 1]);
+                fprintf(stderr, "myfind: %s: requires additional arguments\n", parms[i - 1]);
                 exit(EXIT_FAILURE);
             }
 
         }
         else if (strcmp(parms[i], "-newer") == 0)
         {
-            if (parms[++i])
+            if (parms[i++])
             {
                 op->newer = parms[i];
                 opts = 1;
                 memUsed = 1;
+                i++;
                 continue;
             }
             else
             {
-                fprintf(stderr, "myfind: missing argument to %s\n", parms[i - 1]);
+                fprintf(stderr, "myfind: %s: requires additional arguments\n", parms[i - 1]);
                 exit(EXIT_FAILURE);
             }
         }
@@ -122,18 +126,14 @@ opt *Parsing_args(int len, char **spath, char **parms)
                 exit(EXIT_FAILURE);
             }
             op = op->next;
-            free(op->next);
-            //op->next = NULL;
+            op->next = NULL;
         }
 
-        if (memUsed != 0) 
+        if (memUsed == 1) 
         {
-            if (parms[i][0] == '-')
-            {
-                fprintf(stderr, "myfind: %s: Unknown option\n", parms[i]);
-                exit(EXIT_FAILURE);
-            }
-            fprintf(stderr,"myfind: Usage: ./myfind [starting-point...] [expressions] ...\n");
+            if (strcmp(parms[i - 1], "-print") == 0)
+                fprintf(stderr,"myfind: %s: doesn't take parameters\n", parms[i]);
+            fprintf(stderr,"myfind: Usage: ./myfind [starting-point ...] [expressions] ...\n");
             exit(EXIT_FAILURE);
         } 
         else
@@ -146,9 +146,10 @@ opt *Parsing_args(int len, char **spath, char **parms)
         }
         else
         {
-            fprintf(stderr, "myfind: %s: Unknown option, file or directory\n", parms[i]);
+            fprintf(stderr, "myfind: %s: Unknown option\nUsage: ./myfind [starting-point ...] [expressions] ...", parms[i]);
             exit(EXIT_FAILURE);
         }
+        i++;
     }
     spath[y] = NULL;
     return res;
